@@ -2,3 +2,10 @@ run pip commands to install
 pip install folium 
 py -3 -m pip install folium
 py -3 -m pip install pandas
+
+Issues with the code: 
+
+Since this is reading in city names for from a txt file the code will 
+need to process a lat and long value for each city. In a worst case scnario 
+where there were cities from each country this would take a long time. So the code is ran once
+
