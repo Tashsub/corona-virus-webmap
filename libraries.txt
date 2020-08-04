@@ -1,3 +1,4 @@
 run pip commands to install 
 pip install folium 
 py -3 -m pip install folium
+py -3 -m pip install pandas
