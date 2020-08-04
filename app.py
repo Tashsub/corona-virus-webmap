@@ -28,9 +28,23 @@ def calculateLatLong(city_names):
         loc = Nominatim(user_agent="myGeoCoder")
         location = loc.geocode(x)
         return (location.latitude , location.longitude)
-        
 
-map = folium.Map(location= start_coord, zoom_start=5, tiles ="Stamen Terrain")
+def health_risk(caseCount):
+    if caseCount > 4000:
+        return "red"
+    elif caseCount > 2000:
+        return "orange"
+    else:
+        return "green"
+
+def convert_str_int(val):
+    if val.type(str):
+        return int(val)
+    else:
+        return val
+
+
+map = folium.Map(location= start_coord, zoom_start=9, tiles ="Stamen Terrain")
 
 #all elements added to map will need to be added between the creation of the map 
 #and the saving of the map 
@@ -39,9 +53,18 @@ map = folium.Map(location= start_coord, zoom_start=5, tiles ="Stamen Terrain")
 
 feature_group1 = folium.FeatureGroup(name="Points")
 
-for ln, lg, el in zip(lat, lon, elevation):
-    feature_group1.add_child(folium.CircleMarker(location = [ln,lg], popup =str(el) + " m", 
-    fill_opacity = 0.8, fill_color = 'red', color = 'grey',  radius = 6, weight = 1,))
+
+for coord, arr, cas, pop in zip(coordinates, area_name, case_count, population):
+    lat_value = (coord.split())[0]
+    long_value =  (coord.split())[1]
+
+   
+    marker_color = health_risk(cas)
+
+    feature_group1.add_child(folium.Marker(location = [lat_value,long_value], popup = "lol", 
+    icon = folium.Icon(color=marker_color, icon_color='white', icon='cloud')))
+
+# fill_opacity = 0.8, fill_color = 'red', color = 'grey',  radius = 6, weight = 1,
 
 #read the multipoylogon coordinates
 # These will map out an area/region to map out the countries by population
