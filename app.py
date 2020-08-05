@@ -4,20 +4,18 @@
 import folium
 import pandas
 from geopy.geocoders import Nominatim
+from folium.plugins import MarkerCluster
+from folium.features import CustomIcon
+import os
 
 #data resource  = https://www.theguardian.com/world/2020/aug/04/coronavirus-uk-map-the-latest-deaths-and-confirmed-covid-19-cases
 
-data = pandas.read_csv("Volcanoes.txt")
-lat = list(data["LAT"]) 
-lon = list(data["LON"]) 
-elevation = list(data["ELEV"])
 
 data = pandas.read_csv("covid.txt")
 area_name = list(data["Area"])
 case_count = list(data["Cases"])
 population = list(data["Population"])
 coordinates = list(data["Coordinates"])
-
 
 start_coord = [52.947944, -1.881104] #set to some random in the UK
 
@@ -29,13 +27,15 @@ def calculateLatLong(city_names):
         location = loc.geocode(x)
         return (location.latitude , location.longitude)
 
+#return the colour of teh icon and the icon
 def health_risk(caseCount):
     if caseCount > 4000:
-        return "red"
+        return "red","remove"
     elif caseCount > 2000:
-        return "orange"
+        return "orange","eye-open" 
     else:
-        return "green"
+        return "green","check"
+      
 
 def convert_str_int(val):
     if val.type(str):
@@ -44,7 +44,9 @@ def convert_str_int(val):
         return val
 
 
-map = folium.Map(location= start_coord, zoom_start=9, tiles ="Stamen Terrain")
+map = folium.Map(location= start_coord, zoom_start=8, tiles ="Stamen Terrain")
+
+marker_cluster = MarkerCluster().add_to(map)
 
 #all elements added to map will need to be added between the creation of the map 
 #and the saving of the map 
@@ -54,17 +56,20 @@ map = folium.Map(location= start_coord, zoom_start=9, tiles ="Stamen Terrain")
 feature_group1 = folium.FeatureGroup(name="Points")
 
 
+
 for coord, arr, cas, pop in zip(coordinates, area_name, case_count, population):
     lat_value = (coord.split())[0]
     long_value =  (coord.split())[1]
 
-   
-    marker_color = health_risk(cas)
 
+    #icon is decided on the case count of the area
+    icon_pic = 2
+
+    marker_color = health_risk(cas)[0]
     feature_group1.add_child(folium.Marker(location = [lat_value,long_value], popup = "lol", 
-    icon = folium.Icon(color=marker_color, icon_color='white', icon='cloud')))
+    icon = folium.Icon(color=marker_color, icon_color='white', icon=health_risk(cas)[1])))
+   
 
-# fill_opacity = 0.8, fill_color = 'red', color = 'grey',  radius = 6, weight = 1,
 
 #read the multipoylogon coordinates
 # These will map out an area/region to map out the countries by population

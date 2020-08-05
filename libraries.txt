@@ -9,3 +9,7 @@ Since this is reading in city names for from a txt file the code will
 need to process a lat and long value for each city. In a worst case scnario 
 where there were cities from each country this would take a long time. So the code is ran once
 
+Folium help docs: https://nbviewer.jupyter.org/github/python-visualization/folium/tree/master/examples/ 
+
+clustering version: https://medium.com/locale-ai/visualizing-tesla-superchargers-in-france-352c17e1dc00
+
