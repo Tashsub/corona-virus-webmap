@@ -13,3 +13,5 @@ Folium help docs: https://nbviewer.jupyter.org/github/python-visualization/foliu
 
 clustering version: https://medium.com/locale-ai/visualizing-tesla-superchargers-in-france-352c17e1dc00
 
+Styling: https://nbviewer.jupyter.org/github/python-visualization/folium/blob/master/examples/GeoJsonPopupAndTooltip.ipynb
+
