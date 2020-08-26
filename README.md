@@ -1,1 +1,1 @@
-# volcanoe-and-population-webmap
+# coronavirus-webmap
